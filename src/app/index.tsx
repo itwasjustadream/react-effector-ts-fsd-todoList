@@ -1,5 +1,5 @@
-import TodoList from "../components/TodoList"
-import '../App.css'
+import TodoList from "../widgets/TodoList"
+import './app.css'
 
 export const App = () => {
   return (

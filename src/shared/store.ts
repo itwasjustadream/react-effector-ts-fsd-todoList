@@ -14,6 +14,12 @@ export const $edit = createStore<{ id: number; value: string } | null>(null).on(
   (_, payload) => payload
 );
 
+export const setInput = createEvent<string>();
+export const $input = createStore<string>("").on(setInput, (_, value) => value);
+
+export const setEditInput = createEvent<string>();
+export const $editInput = createStore<string>("").on(setEditInput, (_, value) => value);
+
 const editTask = (todos: Todos, id: number, text: string): Todos =>
   todos.map((todo) =>
     todo.id === id ? { ...todo, text } : todo

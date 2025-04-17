@@ -1,10 +1,10 @@
 import { useUnit } from "effector-react";
-import TodoForm from "./TodoForm";
+import TodoForm from "../entities/TodoForm";
 import { RiCloseCircleLine } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
-import { Todo } from "../models/types";
-import { $edit, setEdit } from "../models/store";
+import { Todo } from "../shared/types";
+import { $edit, setEdit } from "../shared/store";
 
 interface TodoItemProps {
   todo: Todo;

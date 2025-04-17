@@ -1,7 +1,7 @@
 import { useUnit } from "effector-react";
-import TodoForm from "./TodoForm";
-import TodoItem from "./TodoItem";
-import { $todos, addTodo, toggleTodo, removeTodo, editTodo } from "../models/store";
+import TodoForm from "../entities/TodoForm";
+import TodoItem from "../features/TodoItem";
+import { $todos, addTodo, toggleTodo, removeTodo, editTodo } from "../shared/store";
 
 const TodoList = () => {
   const [todos] = useUnit([$todos]);

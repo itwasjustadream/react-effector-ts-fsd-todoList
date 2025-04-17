@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useUnit } from "effector-react";
-import { createEvent, createStore } from "effector";
-
-export const setInput = createEvent<string>();
-export const $input = createStore<string>("").on(setInput, (_, value) => value);
+import { $input, setInput, $editInput, setEditInput } from "../shared/store";
 
 type TodoFormProps = {
   onSubmit: (todo: { id: number; text: string }) => void;
@@ -11,14 +8,18 @@ type TodoFormProps = {
 };
 
 const TodoForm = ({ onSubmit, edit }: TodoFormProps) => {
-  const [input, updateInput] = useUnit([$input, setInput]);
+  const [input, updateInput] = useUnit(edit ? [$editInput, setEditInput] : [$input, setInput]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (edit) setInput(edit.value);
+    if (edit) {
+      updateInput(edit.value);
+    } else {
+      updateInput("");
+    }
     inputRef.current?.focus();
-  }, [edit, setInput]);
+  }, [edit, updateInput]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateInput(e.target.value);
