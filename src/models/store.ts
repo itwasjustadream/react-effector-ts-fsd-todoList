@@ -1,24 +1,28 @@
 import { createEvent, createStore } from "effector";
 import { Todos } from "./types";
 
-export const $todos = createStore<Todos>([])
+export const $todos = createStore<Todos>([]);
 
-export const addTodo = createEvent<string>()
-export const removeTodo = createEvent<number>()
+export const addTodo = createEvent<string>();
+export const removeTodo = createEvent<number>();
 export const toggleTodo = createEvent<number>();
 export const editTodo = createEvent<{ id: number; newText: string }>();
 
+export const setEdit = createEvent<{ id: number; value: string } | null>();
+export const $edit = createStore<{ id: number; value: string } | null>(null).on(
+  setEdit,
+  (_, payload) => payload
+);
+
 const editTask = (todos: Todos, id: number, text: string): Todos =>
-  todos.map((todo) => ({
-    ...todo,
-    text: todo.id === id ? text : todo.text,
-  }));
+  todos.map((todo) =>
+    todo.id === id ? { ...todo, text } : todo
+  );
 
 const toggleTask = (todos: Todos, id: number): Todos =>
-  todos.map((todo) => ({
-    ...todo,
-    done: todo.id === id ? !todo.done : todo.done,
-  }));
+  todos.map((todo) =>
+    todo.id === id ? { ...todo, done: !todo.done } : todo
+  );
 
 const removeTask = (todos: Todos, id: number): Todos =>
   todos.filter((todo) => todo.id !== id);
@@ -26,7 +30,7 @@ const removeTask = (todos: Todos, id: number): Todos =>
 const addTask = (todos: Todos, text: string): Todos => [
   ...todos,
   {
-    id: Math.max(0, Math.max(...todos.map(({ id }) => id))) + 1,
+    id: Math.max(0, ...todos.map(({ id }) => id)) + 1,
     text,
     done: false,
   },

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useUnit } from "effector-react";
 import TodoForm from "./TodoForm";
 import { RiCloseCircleLine } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
 import { MdDone } from "react-icons/md";
 import { Todo } from "../models/types";
+import { $edit, setEdit } from "../models/store";
 
 interface TodoItemProps {
   todo: Todo;
@@ -13,7 +14,7 @@ interface TodoItemProps {
 }
 
 export default function TodoItem({ todo, completeTodo, removeTodo, updateTodo }: TodoItemProps) {
-  const [edit, setEdit] = useState<{ id: number; value: string } | null>(null);
+  const edit = useUnit($edit);
 
   const submitUpdate = (todo: { id: number; text: string }) => {
     if (edit) {
@@ -22,7 +23,7 @@ export default function TodoItem({ todo, completeTodo, removeTodo, updateTodo }:
     }
   };
 
-  if (edit) {
+  if (edit && edit.id === todo.id) {
     return <TodoForm edit={edit} onSubmit={(todo) => submitUpdate(todo)} />;
   }
 
